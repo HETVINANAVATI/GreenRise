@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "874166538325",
+    "project_id": "greenify-b8e5b",
+    "storage_bucket": "greenify-b8e5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874166538325:android:0919eb4477ee6d0582c4dc",
+        "android_client_info": {
+          "package_name": "com.example.greenify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874166538325-cupqi9hu8t9i44hln0l6un4kvt7hekbi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.greenify",
+            "certificate_hash": "f43eff3f7445851ef1e0d1dbc4cd9e03792ca66f"
+          }
+        },
+        {
+          "client_id": "874166538325-eb6nakoumhqm1nc3ab0e64l9eh02fvde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGXurjQI19q1iEiUQ7Fg0aAMF4p_N6aN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874166538325-eb6nakoumhqm1nc3ab0e64l9eh02fvde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
