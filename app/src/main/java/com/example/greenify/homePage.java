@@ -1,31 +1,50 @@
 package com.example.greenify;
 
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.greenify.databinding.ActivityHomePageBinding;
 
 public class homePage extends AppCompatActivity {
-    ImageView im;
+    ActivityHomePageBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_home_page);
-        im=findViewById(R.id.imageView13);
-        registerForContextMenu(im);
+        binding=ActivityHomePageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new HomeFragment());
+        binding.bnv.setOnItemSelectedListener(item -> {
+            switch(item.getItemId())
+            {
+                case R.id.chip1:
+                    replaceFragment(new HomeFragment());
+                    break;
+                case R.id.chip2:
+                    replaceFragment(new profileFragment());
+                    break;
+                case R.id.chip3:
+                    replaceFragment(new BuyFragment());
+                    break;
+            }
+
+            return true;
+        });
 
     }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.menuforuser,menu);
-    }
+private void replaceFragment(Fragment fragment)
+{
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+    fragmentTransaction.replace(R.id.frameLayout,fragment);
+    fragmentTransaction.commit();
+}
 }
