@@ -36,6 +36,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    implementation 'com.google.firebase:firebase-auth:21.0.8'
 
     testImplementation 'junit:junit:4.13.2'
     implementation "com.google.android.gms:play-services-wallet:16.0.1"

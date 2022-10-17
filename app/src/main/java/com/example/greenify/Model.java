@@ -1,19 +1,19 @@
 package com.example.greenify;
 
-public class Model {
-    String about,image,name;
-    int quantity,price;
+public class model {
+    String about,image,name,price,quantity;
 
-    public Model() {
+    public model() {
     }
 
-    public Model(String about, String image, String name, int quantity, int price) {
+    public model(String about, String image, String name, String price, String quantity) {
         this.about = about;
         this.image = image;
         this.name = name;
-        this.quantity = quantity;
         this.price = price;
+        this.quantity = quantity;
     }
+
 
     public String getAbout() {
         return about;
@@ -39,19 +39,19 @@ public class Model {
         this.name = name;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 }

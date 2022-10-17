@@ -51,15 +51,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home,container,false);
-
         rv=(RecyclerView) view.findViewById(R.id.recView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        FirebaseRecyclerOptions<Model> options =
-                new FirebaseRecyclerOptions.Builder<Model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Plants"), Model.class)
+        FirebaseRecyclerOptions<model> options =
+                new FirebaseRecyclerOptions.Builder<model>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Plant"), model.class)
                         .build();
-
        adapter=new myadapter(options);
        rv.setAdapter(adapter);
         return view;
