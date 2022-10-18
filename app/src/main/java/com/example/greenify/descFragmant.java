@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class descFragmant extends Fragment {
@@ -34,10 +35,11 @@ public class descFragmant extends Fragment {
     String about,image,name,price,quantity;
     SimpleDateFormat currentTime;
     SimpleDateFormat currentDate;
-      int quantityincart;
+ //     int quantityincart;
     private static final  String h1="THE_C";
-    static int root=0;
+    int k;
     static int i=1;
+    static int h=1;
     public descFragmant() {
 
     }
@@ -78,15 +80,17 @@ public class descFragmant extends Fragment {
         TextView priceholder=view.findViewById(R.id.priceholder);
         TextView quantityholder=view.findViewById(R.id.quantityholder);
         Button btn=view.findViewById(R.id.button);
+        Button btn1=view.findViewById(R.id.button3);
+        Button btn2=view.findViewById(R.id.button4);
         nameholder.setText(name);
         aboutholder.setText(about);
         priceholder.setText(price);
         quantityholder.setText(quantity);
         Glide.with(getContext()).load(image).into(imageholder);
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                k=0;
                 btn.setEnabled(false);
                 FirebaseAuth fa = FirebaseAuth.getInstance();
                 currentDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -95,14 +99,56 @@ public class descFragmant extends Fragment {
                 final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
                 DatabaseReference cart = db.getReference("Cart");
-                cart.addValueEventListener(new ValueEventListener() {
+                cart.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                         //   Log.i("The_C", s);
+                            if (snapshot1.child("name").getValue().toString().equals(name)) {
+                                k=1;
+                                String  s = snapshot1.child("totalquantity").getValue().toString();
+                                int q=Integer.parseInt(s)+1;
+                                String up=snapshot1.child("unitprice").getValue().toString();
+                         //       Log.i("The_C", "h1");
+                                HashMap updateq=new HashMap();
+                                updateq.put("totalquantity",String.valueOf(q));
+                                updateq.put("totalprice",String.valueOf(Integer.parseInt(up)*q));
+                                cart.child(snapshot1.child("parent").getValue().toString()).updateChildren(updateq);
+                            }
+                        }
+                        System.out.println(k);
+                        if (k==0) {
+                            cartModel cm = new cartModel(name, price, t, d, "1", price, String.valueOf(1), String.valueOf(1), String.valueOf(i),image);
+                            cart.child(String.valueOf(i)).setValue(cm);
+                            //quantityincart++;
+                            i++;
+                        }
+
+                        btn.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn.setEnabled(false);
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference cart = db.getReference("Cart");
+                cart.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot snapshot1:snapshot.getChildren())
                         {
-                            if(snapshot1.child("name").equals(name))
+                            if(snapshot1.child("name").getValue().toString().equals(name))
                             {
-                                snapshot1.child("to")
+                                cart.child(snapshot1.child("parent").getValue().toString()).removeValue();
                             }
                         }
                     }
@@ -112,16 +158,25 @@ public class descFragmant extends Fragment {
 
                     }
                 });
-                    cartModel cm = new cartModel(name, price, t, d, "1", price, String.valueOf(1), String.valueOf(1), String.valueOf(i));
-                    cart.child(String.valueOf(i)).setValue(cm);
-                    quantityincart++;
-                    i++;
+                btn.setEnabled(true);
             }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String t = String.valueOf(currentDate.format(Calendar.getInstance().getTime()));
+                final String d = String.valueOf(currentTime.format(Calendar.getInstance().getTime()));
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference wishlist = db.getReference("Wishlist");
+                wishModel wm = new wishModel(name,price,t,d,String.valueOf(1),String.valueOf(1),String.valueOf(h),image);
+                wishlist.child(String.valueOf(h)).setValue(wm);
+                        h++;
+                }
+
         });
 
         return view;
     }
-
 
 
     public void onBackPressed()

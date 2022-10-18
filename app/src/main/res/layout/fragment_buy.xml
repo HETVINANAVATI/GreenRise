@@ -17,6 +17,7 @@
         android:text="Proceed to pay" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

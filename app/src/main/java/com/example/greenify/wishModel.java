@@ -1,30 +1,19 @@
 package com.example.greenify;
 
-public class cartModel {
-    String name,unitprice,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
+public class wishModel {
+    String name,unitprice,currentdate,currenttime,UUID,SUID,parent,image;
 
-
-
-    public cartModel() {
+    public wishModel() {
     }
 
-    public cartModel(String name, String unitprice, String currentdate, String currenttime, String totalquantity, String totalprice, String UUID, String SUID, String parent,String image) {
+    public wishModel(String name, String unitprice, String currentdate, String currenttime, String UUID, String SUID, String parent, String image) {
         this.name = name;
         this.unitprice = unitprice;
         this.currentdate = currentdate;
         this.currenttime = currenttime;
-        this.totalquantity = totalquantity;
-        this.totalprice = totalprice;
         this.UUID = UUID;
         this.SUID = SUID;
         this.parent = parent;
-        this.image=image;
-    }
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
         this.image = image;
     }
 
@@ -60,22 +49,6 @@ public class cartModel {
         this.currenttime = currenttime;
     }
 
-    public String getTotalquantity() {
-        return totalquantity;
-    }
-
-    public void setTotalquantity(String totalquantity) {
-        this.totalquantity = totalquantity;
-    }
-
-    public String getTotalprice() {
-        return totalprice;
-    }
-
-    public void setTotalprice(String totalprice) {
-        this.totalprice = totalprice;
-    }
-
     public String getUUID() {
         return UUID;
     }
@@ -99,6 +72,12 @@ public class cartModel {
     public void setParent(String parent) {
         this.parent = parent;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
-
-
