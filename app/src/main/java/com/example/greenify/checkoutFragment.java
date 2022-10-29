@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,6 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -47,6 +54,11 @@ public class checkoutFragment extends Fragment {
     String EmphericalKey;
   String clientSecret;
   View view1;
+    String name,unitprice,currentdate,currenttime,totalquantity,totalprice,UUID,SUID,parent,image;
+
+    RecyclerView rv;
+    myadapter adapter;
+    static int i=0;
     public checkoutFragment() {
         // Required empty public constructor
     }
@@ -127,6 +139,41 @@ public class checkoutFragment extends Fragment {
             public void onClick(View view) {
               //  gotoURL("https://buy.stripe.com/test_28o3fK9a0glTcsEfYZ?default_price="+totalPrice);
                 PaymentFlow();
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                DatabaseReference orders = db.getReference("Orders");
+                DatabaseReference cart =db.getReference("Cart");
+                cart.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                        {
+                            name=dataSnapshot.child("name").getValue().toString();
+                             unitprice=dataSnapshot.child("unitprice").getValue().toString();
+                             currentdate=dataSnapshot.child("currentdate").getValue().toString();
+                             currenttime=dataSnapshot.child("currenttime").getValue().toString();
+                             totalquantity=dataSnapshot.child("totalquantity").getValue().toString();
+                             totalprice=dataSnapshot.child("totalprice").getValue().toString();
+                             UUID=dataSnapshot.child("uuid").getValue().toString();
+                             SUID=dataSnapshot.child("suid").getValue().toString();
+                             parent=dataSnapshot.child("parent").getValue().toString();
+                             image=dataSnapshot.child("image").getValue().toString();
+                            cartModel cm = new cartModel(name, unitprice, currentdate, currenttime, totalquantity, totalprice,UUID, SUID, String.valueOf(i),image);
+                            orders.child(String.valueOf(i)).setValue(cm);
+                            i++;
+                            cart.child(parent).removeValue();
+                            tv.setText("You have nothing in cart!");
+                        }
+
+                    }
+
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
         return view;
@@ -136,6 +183,7 @@ public class checkoutFragment extends Fragment {
         if(paymentSheetResult instanceof  PaymentSheetResult.Completed)
         {
             Toast.makeText(view1.getContext(),"Succesful payment",Toast.LENGTH_SHORT).show();
+
         }
     }
 
